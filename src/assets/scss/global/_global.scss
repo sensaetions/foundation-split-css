@@ -1,0 +1,84 @@
+body {
+  background-color: red;
+  font-family: mono;
+
+  @include breakpoint(small-wide) {
+    background-color: orange;
+    font-family: serif;
+  }
+
+  @include breakpoint(medium) {
+    background-color: yellow;
+  }
+
+  @include breakpoint(medium-tall) {
+    background-color: green;
+  }
+
+  @include breakpoint(large) {
+    background-color: blue;
+    font-family: sans-serif;
+  }
+
+  @include breakpoint(xlarge) {
+    background-color: violet;
+  }
+
+  @include breakpoint(xxlarge) {
+    background-color: indigo;
+  }
+
+  @include breakpoint(huge) {
+    background-color: purple;
+  }
+
+  @include breakpoint(ginormous) {
+    background-color: gray;
+  }
+
+  @include breakpoint(omgwide) {
+    background-color: moccasin;
+  }
+
+  @include breakpoint(maximus) {
+    background-color: black;
+  }
+}
+
+.screens-small {
+  background-color: yellow;
+
+  @include breakpoint(medium) {
+    display: none;
+  }
+
+  @include breakpoint(large) {
+    display: none;
+  }
+}
+
+.screens-medium {
+  display: none;
+
+  @include breakpoint(medium) {
+    background-color: aquamarine;
+    display: block;
+  }
+
+  @include breakpoint(large) {
+    display: none;
+  }
+}
+
+.screens-large {
+  display: none;
+
+  @include breakpoint(medium) {
+    display: none;
+  }
+
+  @include breakpoint(large) {
+    background-color: red;
+    display: block;
+  }
+}
