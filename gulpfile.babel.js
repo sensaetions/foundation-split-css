@@ -17,6 +17,8 @@ import autoprefixer  from 'autoprefixer';
 
 // Load all Gulp plugins into one variable
 const $ = plugins();
+const path = require("path");
+const postCssExtractMQ = require("postcss-extract-media-query");
 
 // Check for --production flag
 const PRODUCTION = !!(yargs.argv.production);
@@ -81,7 +83,6 @@ function styleGuide(done) {
 // Compile Sass into CSS
 // In production, the CSS is compressed
 function sass() {
-
   const postCssPlugins = [
     // Autoprefixer
     autoprefixer({ browsers: COMPATIBILITY }),
@@ -96,10 +97,16 @@ function sass() {
       includePaths: PATHS.sass
     })
       .on('error', $.sass.logError))
+    // combines redundant mediq queries and beautifies css
+    // .pipe($.combineMq({
+    //   beautify: true
+    // }))
     .pipe($.postcss(postCssPlugins))
+    .pipe($.postcss())
     .pipe($.if(PRODUCTION, $.cleanCss({ compatibility: 'ie9' })))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
-    .pipe(gulp.dest(PATHS.dist + '/assets/css'))
+    .pipe(gulp.dest('src/assets/css'))
+    // .pipe(gulp.dest(PATHS.dist + '/assets/css'))
     .pipe(browser.reload({ stream: true }));
 }
 
