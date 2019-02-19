@@ -105,8 +105,7 @@ function sass() {
     .pipe($.postcss())
     .pipe($.if(PRODUCTION, $.cleanCss({ compatibility: 'ie9' })))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
-    .pipe(gulp.dest('src/assets/css'))
-    // .pipe(gulp.dest(PATHS.dist + '/assets/css'))
+    .pipe(gulp.dest(PATHS.dist + '/assets/css'))
     .pipe(browser.reload({ stream: true }));
 }
 
