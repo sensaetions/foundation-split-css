@@ -2,10 +2,17 @@ const path = require("path");
 
 module.exports = {
   plugins: {
+    "autoprefixer": {
+      browsers: [
+        "last 2 versions",
+        "ie >= 9",
+        "ios >= 7"
+      ]
+    }
     "postcss-extract-media-query": {
       // minimize: true,
       output: {
-        path: path.join(__dirname, "src/assets/css")
+        path: path.join(__dirname, "dist/assets/css")
       },
       queries: {
         "screen and (orientation: landscape)": "small",
