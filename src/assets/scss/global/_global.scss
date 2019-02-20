@@ -41,7 +41,7 @@ body {
   }
 
   @include breakpoint(maximus) {
-    background-color: black;
+    background-color: darkgray;
   }
 }
 
@@ -63,6 +63,10 @@ body {
   @include breakpoint(medium) {
     background-color: aquamarine;
     display: block;
+
+    @media print {
+      border: rem-calc(1) dotted aquamarine;
+    } 
   }
 
   @include breakpoint(large) {
