@@ -92,14 +92,18 @@ function sass() {
     }))
     .pipe($.if(PRODUCTION, $.cleanCss({ compatibility: 'ie9' })))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
-    .pipe(gulp.dest(PATHS.dist + '/assets/css'))
+    // .pipe(gulp.dest(PATHS.dist + '/assets/css'))
+    // temporarily placing css output into src folder (for demo purposes)
+    .pipe(gulp.dest('src/assets/css'))
     .pipe(browser.reload({ stream: true }));
 }
 
 function splitCss() {
-  return gulp.src(PATHS.dist + '/assets/css/app.css')
+  // return gulp.src(PATHS.dist + '/assets/css/app.css')
+  return gulp.src('src/assets/css/app.css')
     .pipe($.postcss())
-    .pipe(gulp.dest(PATHS.dist + '/assets/css'))
+    // .pipe(gulp.dest(PATHS.dist + '/assets/css'))
+    .pipe(gulp.dest('src/assets/css'))
     .pipe(browser.reload({ stream: true }));
 }
 
