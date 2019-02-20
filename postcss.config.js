@@ -1,4 +1,5 @@
 const path = require("path");
+const postCssExtractMQ = require("postcss-extract-media-query");
 
 module.exports = {
   plugins: {
@@ -8,7 +9,7 @@ module.exports = {
         "ie >= 9",
         "ios >= 7"
       ]
-    }
+    },
     "postcss-extract-media-query": {
       // minimize: true,
       output: {

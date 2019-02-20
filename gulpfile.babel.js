@@ -17,8 +17,6 @@ import autoprefixer  from 'autoprefixer';
 
 // Load all Gulp plugins into one variable
 const $ = plugins();
-const path = require("path");
-const postCssExtractMQ = require("postcss-extract-media-query");
 
 // Check for --production flag
 const PRODUCTION = !!(yargs.argv.production);
