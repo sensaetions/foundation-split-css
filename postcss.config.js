@@ -13,7 +13,9 @@ module.exports = {
     "postcss-extract-media-query": {
       // minimize: true,
       output: {
-        path: path.join(__dirname, "dist/assets/css")
+        // path: path.join(__dirname, "dist/assets/css")
+        // temporarily placing css output into src folder (for demo purposes)
+        path: path.join(__dirname, "src/assets/css")
       },
       queries: {
         // orientation, oddballs
