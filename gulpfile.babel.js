@@ -34,7 +34,7 @@ function loadConfig() {
 // Build the "dist" folder by running all of the below tasks
 // Sass must be run later so UnCSS can search for used classes in the others assets.
 gulp.task('build',
- gulp.series(clean, gulp.parallel(sass, pages, javascript, images, copy), styleGuide));
+ gulp.series(clean, gulp.parallel(sass, pages, javascript, images, copy), splitCss, styleGuide));
 
 // Build the site, run the server, and watch for file changes
 gulp.task('default',
@@ -83,27 +83,24 @@ function styleGuide(done) {
 // Compile Sass into CSS
 // In production, the CSS is compressed
 function sass() {
-  // const postCssPlugins = [
-    // Autoprefixer
-  //   autoprefixer({ browsers: COMPATIBILITY }),
-
-  //   // UnCSS - Uncomment to remove unused styles in production
-  //   // PRODUCTION && uncss.postcssPlugin(UNCSS_OPTIONS),
-  // ].filter(Boolean);
-
   return gulp.src('src/assets/scss/app.scss')
     .pipe($.sourcemaps.init())
     .pipe($.sass({
       includePaths: PATHS.sass
     }).on('error', $.sass.logError))
     // combines redundant mediq queries and beautifies css
-    // .pipe($.combineMq({
-    //   beautify: true
-    // }))
-    // .pipe($.postcss(postCssPlugins))
-    .pipe($.postcss())
+    .pipe($.combineMq({
+      beautify: true
+    }))
     .pipe($.if(PRODUCTION, $.cleanCss({ compatibility: 'ie9' })))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
+    .pipe(gulp.dest(PATHS.dist + '/assets/css'))
+    .pipe(browser.reload({ stream: true }));
+}
+
+function splitCss() {
+  return gulp.src(PATHS.dist + '/assets/css/app.css')
+    .pipe($.postcss())
     .pipe(gulp.dest(PATHS.dist + '/assets/css'))
     .pipe(browser.reload({ stream: true }));
 }
@@ -172,6 +169,7 @@ function watch() {
   gulp.watch('src/data/**/*.{js,json,yml}').on('all', gulp.series(resetPages, pages, browser.reload));
   gulp.watch('src/helpers/**/*.js').on('all', gulp.series(resetPages, pages, browser.reload));
   gulp.watch('src/assets/scss/**/*.scss').on('all', sass);
+  gulp.watch(PATHS.dist + '/assets/css/app.css').on('all', splitCss);
   gulp.watch('src/assets/js/**/*.js').on('all', gulp.series(javascript, browser.reload));
   gulp.watch('src/assets/img/**/*').on('all', gulp.series(images, browser.reload));
   gulp.watch('src/styleguide/**').on('all', gulp.series(styleGuide, browser.reload));
