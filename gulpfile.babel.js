@@ -34,7 +34,7 @@ function loadConfig() {
 // Build the "dist" folder by running all of the below tasks
 // Sass must be run later so UnCSS can search for used classes in the others assets.
 gulp.task('build',
- gulp.series(clean, gulp.parallel(pages, javascript, images, copy), sass, styleGuide));
+ gulp.series(clean, gulp.parallel(sass, pages, javascript, images, copy), styleGuide));
 
 // Build the site, run the server, and watch for file changes
 gulp.task('default',
@@ -83,25 +83,24 @@ function styleGuide(done) {
 // Compile Sass into CSS
 // In production, the CSS is compressed
 function sass() {
-  const postCssPlugins = [
+  // const postCssPlugins = [
     // Autoprefixer
-    autoprefixer({ browsers: COMPATIBILITY }),
+  //   autoprefixer({ browsers: COMPATIBILITY }),
 
-    // UnCSS - Uncomment to remove unused styles in production
-    // PRODUCTION && uncss.postcssPlugin(UNCSS_OPTIONS),
-  ].filter(Boolean);
+  //   // UnCSS - Uncomment to remove unused styles in production
+  //   // PRODUCTION && uncss.postcssPlugin(UNCSS_OPTIONS),
+  // ].filter(Boolean);
 
   return gulp.src('src/assets/scss/app.scss')
     .pipe($.sourcemaps.init())
     .pipe($.sass({
       includePaths: PATHS.sass
-    })
-      .on('error', $.sass.logError))
+    }).on('error', $.sass.logError))
     // combines redundant mediq queries and beautifies css
     // .pipe($.combineMq({
     //   beautify: true
     // }))
-    .pipe($.postcss(postCssPlugins))
+    // .pipe($.postcss(postCssPlugins))
     .pipe($.postcss())
     .pipe($.if(PRODUCTION, $.cleanCss({ compatibility: 'ie9' })))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
